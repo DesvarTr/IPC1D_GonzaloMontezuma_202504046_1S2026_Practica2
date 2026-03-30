@@ -47,6 +47,7 @@ public class shellSort extends sortVisualizer {
                         notificarIntercambio();
                         actualizarDataset(snap, idx1, idx2);
                         lblEstado.setText("Intercambiando: i" + idx1 + " e i" + idx2);
+                        statsPanel.appendLog("Intercambiando: i" + idx1 + " e i" + idx2);
                     });
                     pausa();
                 }

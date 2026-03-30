@@ -87,13 +87,16 @@ public abstract class sortVisualizer {
 
     private void iniciarOrdenamiento(int[] copia) {
         
+        final int[] arregloOriginal = copia.clone();
         movimientos[0] = 0; // reset comparaciones
         movimientos[1] = 0; // reset intercambios
         movimientos[2] = 0; // reset iteraciones
         if (statsPanel != null) statsPanel.reset();
         
         Thread hilo = new Thread(() -> {
+            long startTime = System.currentTimeMillis();
             ordenar(copia);
+            long tiempoMs = System.currentTimeMillis() - startTime;
 
             SwingUtilities.invokeLater(() -> {
                 actualizarDataset(copia, -1, -1);
@@ -101,6 +104,15 @@ public abstract class sortVisualizer {
                 btnOrdenar.setText("Ordenar de nuevo");
                 lblTipo.setText("");
                 lblEstado.setText("Ordenado con " + getNombre());
+                
+                statsPanel.appendLog("------- FIN -------");
+                statsPanel.appendLog("Arreglo original: " + java.util.Arrays.toString(arregloOriginal));
+                statsPanel.appendLog("Arreglo resultado: " + java.util.Arrays.toString(copia));
+                statsPanel.appendLog("Algoritmo: " + getNombre() + " | Orden: " + (ascendente ? "ASC" : "DESC")
+                        + " | Comp: " + movimientos[0] + " | Inter: " + movimientos[1]
+                        + " | Iter: " + movimientos[2] + " | Tiempo: " + tiempoMs + " ms"
+                        + " | Velocidad: " + velocidad + " ms");  
+                
             });
         });
 

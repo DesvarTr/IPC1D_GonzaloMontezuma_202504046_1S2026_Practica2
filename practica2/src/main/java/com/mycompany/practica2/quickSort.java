@@ -54,6 +54,7 @@ public class quickSort extends sortVisualizer {
                     actualizarDataset(snap, idx1, idx2);
                     notificarIntercambio();
                     lblEstado.setText("Intercambiando: i" + idx1 + " e i" + idx2);
+                    statsPanel.appendLog("Intercambiando: i" + idx1 + " e i" + idx2);
                 });
                 pausa();
             }
@@ -66,6 +67,7 @@ public class quickSort extends sortVisualizer {
             notificarIntercambio();
             actualizarDataset(snap, idx1, idx2);
             lblEstado.setText("Colocando el pivote en su posicion final: i" + idx1 + " -> i" + idx2);
+            statsPanel.appendLog("Colocando el pivote en su posicion final: i" + idx1 + " -> i" + idx2);
         });
         pausa();
         return i+1;

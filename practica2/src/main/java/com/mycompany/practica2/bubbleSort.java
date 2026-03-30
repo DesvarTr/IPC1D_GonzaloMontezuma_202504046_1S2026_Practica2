@@ -46,6 +46,7 @@ public class bubbleSort extends sortVisualizer {
                     SwingUtilities.invokeLater(() -> {
                         actualizarDataset(snap, idx1, idx2);
                         lblEstado.setText("Intercambiando: i" + idx1 + " e i" + idx2);
+                        statsPanel.appendLog("Intercambiando: i" + idx1 + " e i" + idx2);
                         notificarIntercambio();
                     });
                     pausa();
@@ -58,6 +59,7 @@ public class bubbleSort extends sortVisualizer {
                     SwingUtilities.invokeLater(() -> {
                         actualizarDataset(snap, idx1, idx2);
                         lblEstado.setText("No se hace nada con: i" + idx1 + " e i" + idx2);
+                        statsPanel.appendLog("No se hace nada con: i" + idx1 + " e i" + idx2);
                     });
                     pausa();
                 
