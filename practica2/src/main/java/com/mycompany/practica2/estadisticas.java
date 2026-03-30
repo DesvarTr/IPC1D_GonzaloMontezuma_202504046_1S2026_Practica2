@@ -123,7 +123,7 @@ public class estadisticas extends javax.swing.JPanel {
 
         // Tab 2 - Report HTML
         String htmlCompleto = "<html><body><table border='1' cellpadding='5'>"
-                + "\"<tr><th>Algoritmo</th><th>Orden</th><th>Arreglo Original</th><th>Arreglo Resultado</th><th>Comp</th><th>Inter</th><th>Iter</th><th>Tiempo</th><th>Velocidad</th></tr>\""
+                + "<tr><th>Algoritmo</th><th>Orden</th><th>Arreglo Original</th><th>Arreglo Resultado</th><th>Comp</th><th>Inter</th><th>Iter</th><th>Tiempo</th><th>Velocidad</th></tr>"
                 + historialHTML
                 + "</table></body></html>";
         JEditorPane editorPane = new JEditorPane("text/html", htmlCompleto);
