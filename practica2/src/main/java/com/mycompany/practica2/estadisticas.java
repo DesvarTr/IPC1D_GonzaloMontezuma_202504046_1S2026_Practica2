@@ -69,7 +69,7 @@ public class estadisticas extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
-                .addContainerGap(96, Short.MAX_VALUE))
+                .addContainerGap(163, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -86,28 +86,26 @@ public class estadisticas extends javax.swing.JPanel {
                     .addComponent(jLabel1)
                     .addComponent(jLabel2)
                     .addComponent(jLabel3))
-                .addContainerGap(42, Short.MAX_VALUE))
+                .addContainerGap(296, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
     
     public void actualizarComparaciones(int valor) {
-        SwingUtilities.invokeLater(() -> jLabel5.setText(String.valueOf(valor)));
+        jLabel5.setText(String.valueOf(valor));
     }
 
     public void actualizarIntercambios(int valor) {
-        SwingUtilities.invokeLater(() -> jLabel6.setText(String.valueOf(valor)));
+        jLabel6.setText(String.valueOf(valor));
     }
 
     public void actualizarIteraciones(int valor) {
-        SwingUtilities.invokeLater(() -> jLabel7.setText(String.valueOf(valor)));
+        jLabel7.setText(String.valueOf(valor));
     }
 
     public void reset() {
-        SwingUtilities.invokeLater(() -> {
-            jLabel5.setText("0");
-            jLabel6.setText("0");
-            jLabel7.setText("0");
-        });
+        jLabel5.setText("0");
+        jLabel6.setText("0");
+        jLabel7.setText("0");
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

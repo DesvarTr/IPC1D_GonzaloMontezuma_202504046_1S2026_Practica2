@@ -22,10 +22,9 @@ public class Practica2 extends javax.swing.JFrame {
     private JFreeChart chart;
     private static boolean ASCENDENTE = true;
     private static int     VELOCIDAD  = 300;
-    private static String  ALGORITMO  = "MERGE";
+    private static String  ALGORITMO  = "QUICK";
     private static getData configPanel = new getData();
     private static estadisticas stats = new estadisticas();
-    sortVisualizer visualizador = null;
     
     public Practica2() {
         initComponents();
@@ -37,23 +36,18 @@ public class Practica2 extends javax.swing.JFrame {
         this.ALGORITMO = this.jComboBoxTipo.getSelectedItem().toString();
         this.VELOCIDAD = configPanel.getVelocidad();
         this.ASCENDENTE = configPanel.getAscendente();
+        this.stats.reset();
         switch (this.ALGORITMO) {
             case "BUBBLE":
-                visualizador = new bubbleSort(jPanel1, arreglo, this.ASCENDENTE, this.VELOCIDAD);
+                new bubbleSort(jPanel1, arreglo, this.ASCENDENTE, this.VELOCIDAD, stats);
+                
                 break;
             case "QUICK":
-                visualizador = new quickSort(jPanel1, arreglo, this.ASCENDENTE, this.VELOCIDAD);
+                new quickSort(jPanel1, arreglo, this.ASCENDENTE, this.VELOCIDAD, stats);
                 break;
             case "SHELL":
-                visualizador = new shellSort(jPanel1, arreglo, this.ASCENDENTE, this.VELOCIDAD);
+                new shellSort(jPanel1, arreglo, this.ASCENDENTE, this.VELOCIDAD, stats);
                 break;
-            case "MERGE":
-                visualizador = new mergeSort(jPanel1, arreglo, this.ASCENDENTE, this.VELOCIDAD);
-                break;
-        }
-        
-        if (visualizador != null) {
-            visualizador.setStatsPanel(stats);
         }
     }
     
@@ -79,7 +73,7 @@ public class Practica2 extends javax.swing.JFrame {
             .addGap(0, 479, Short.MAX_VALUE)
         );
 
-        jComboBoxTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "MERGE", "BUBBLE", "QUICK", "SHELL" }));
+        jComboBoxTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {"BUBBLE", "QUICK", "SHELL" }));
 
         jButton1.setText("Aplicar cambios");
         jButton1.addActionListener(this::jButton1ActionPerformed);

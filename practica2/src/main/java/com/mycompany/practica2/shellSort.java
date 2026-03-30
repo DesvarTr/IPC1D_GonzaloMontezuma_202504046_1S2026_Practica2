@@ -7,12 +7,12 @@ import javax.swing.*;
  */
 public class shellSort extends sortVisualizer {
     
-    public shellSort(JPanel panel, int[] arreglo) {
-        super(panel, arreglo);
+    public shellSort(JPanel panel, int[] arreglo, estadisticas statsPanel) {
+        super(panel, arreglo, statsPanel);
     }
 
-    public shellSort(JPanel panel, int[] arreglo, boolean ascendente, int velocidad) {
-        super(panel, arreglo, ascendente, velocidad);
+    public shellSort(JPanel panel, int[] arreglo, boolean ascendente, int velocidad, estadisticas statsPanel) {
+        super(panel, arreglo, ascendente, velocidad, statsPanel);
     }
     
     @Override
@@ -28,7 +28,10 @@ public class shellSort extends sortVisualizer {
         for (int i = arr.length / denominator; i >= 1; i = Math.max(i / denominator, i == 1 ? 0 : 1)) {
 
             for (int j = i; j < arr.length; j++) {
-                notificarIteracion();
+                SwingUtilities.invokeLater(() -> {
+                    notificarIteracion();
+                });
+                
                 //Guardar lo que esta originalmente en j
                 int temp = arr[j];
                 int k = j;
@@ -37,11 +40,11 @@ public class shellSort extends sortVisualizer {
                     arr[k] = arr[k - i];
                     k -= i;
                     
-                    notificarIntercambio();
                     final int idx1 = k-i, idx2 = k;
                     final int[] snap = arr.clone();
 
                     SwingUtilities.invokeLater(() -> {
+                        notificarIntercambio();
                         actualizarDataset(snap, idx1, idx2);
                         lblEstado.setText("Intercambiando: i" + idx1 + " e i" + idx2);
                     });

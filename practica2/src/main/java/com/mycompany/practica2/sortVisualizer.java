@@ -27,7 +27,7 @@ public abstract class sortVisualizer {
     protected int[] movimientos;
     protected estadisticas statsPanel;
 
-    public sortVisualizer(JPanel panel, int[] arreglo, boolean ascendente, int velocidad) {
+    public sortVisualizer(JPanel panel, int[] arreglo, boolean ascendente, int velocidad, estadisticas statsPanel) {
         this.panel      = panel;
         this.arreglo    = arreglo;
         this.ascendente = ascendente;
@@ -35,17 +35,13 @@ public abstract class sortVisualizer {
         this.ordenados = Arrays.copyOf(arreglo,arreglo.length);
         Arrays.sort(ordenados);
         this.movimientos = new int[3];
+        this.statsPanel = statsPanel;
         inicializarUI();
     }
-
-    public void setStatsPanel(estadisticas statsPanel) {
-        this.statsPanel = statsPanel;
-    }
     
-    public sortVisualizer(JPanel panel, int[] arreglo) {
-        this(panel, arreglo, true, 300);
+    public sortVisualizer(JPanel panel, int[] arreglo, estadisticas statsPanel) {
+        this(panel, arreglo, true, 300, statsPanel);
     }
-
    
     private void inicializarUI() {
         dataset = new DefaultCategoryDataset();
@@ -135,7 +131,10 @@ public abstract class sortVisualizer {
 
     // Comparacion de intercambio
     protected boolean debeIntercambiar(int a, int b) {
-        notificarComparacion();
+            
+        SwingUtilities.invokeLater(() -> {
+            notificarComparacion();
+        });
         return ascendente ? a > b : a < b;
     }
 

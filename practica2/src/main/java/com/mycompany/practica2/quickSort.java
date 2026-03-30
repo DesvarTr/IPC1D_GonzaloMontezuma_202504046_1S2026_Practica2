@@ -7,12 +7,12 @@ import javax.swing.*;
  */
 public class quickSort extends sortVisualizer {
     
-    public quickSort(JPanel panel, int[] arreglo) {
-        super(panel, arreglo);
+    public quickSort(JPanel panel, int[] arreglo, estadisticas statsPanel) {
+        super(panel, arreglo, statsPanel);
     }
 
-    public quickSort(JPanel panel, int[] arreglo, boolean ascendente, int velocidad) {
-        super(panel, arreglo, ascendente, velocidad);
+    public quickSort(JPanel panel, int[] arreglo, boolean ascendente, int velocidad, estadisticas statsPanel) {
+        super(panel, arreglo, ascendente, velocidad, statsPanel);
     }
     
     @Override
@@ -25,7 +25,9 @@ public class quickSort extends sortVisualizer {
     
     private void quickSort_run(int[] arr, int izq, int der){
         
-        notificarIteracion();
+        SwingUtilities.invokeLater(() -> {
+            notificarIteracion();
+        });
         if (izq<=der){
             int pi = partition(arr,izq,der);
             quickSort_run(arr, izq ,pi-1);
@@ -45,12 +47,12 @@ public class quickSort extends sortVisualizer {
                 i++;
                 swap(arr,i,j);
                 
-                notificarIntercambio();
                 final int idx1 = i, idx2 = j;
                 final int[] snap = arr.clone();
 
                 SwingUtilities.invokeLater(() -> {
                     actualizarDataset(snap, idx1, idx2);
+                    notificarIntercambio();
                     lblEstado.setText("Intercambiando: i" + idx1 + " e i" + idx2);
                 });
                 pausa();
@@ -61,6 +63,7 @@ public class quickSort extends sortVisualizer {
         final int idx1 = der, idx2 = i+1;
         final int[] snap = arr.clone();
         SwingUtilities.invokeLater(() -> {
+            notificarIntercambio();
             actualizarDataset(snap, idx1, idx2);
             lblEstado.setText("Colocando el pivote en su posicion final: i" + idx1 + " -> i" + idx2);
         });

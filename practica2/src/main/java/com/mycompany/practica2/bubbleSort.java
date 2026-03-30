@@ -7,12 +7,12 @@ import javax.swing.*;
  */
 public class bubbleSort extends sortVisualizer {
     
-    public bubbleSort(JPanel panel, int[] arreglo) {
-        super(panel, arreglo);
+    public bubbleSort(JPanel panel, int[] arreglo, estadisticas statsPanel) {
+        super(panel, arreglo, statsPanel);
     }
 
-    public bubbleSort(JPanel panel, int[] arreglo, boolean ascendente, int velocidad) {
-        super(panel, arreglo, ascendente, velocidad);
+    public bubbleSort(JPanel panel, int[] arreglo, boolean ascendente, int velocidad, estadisticas statsPanel) {
+        super(panel, arreglo, ascendente, velocidad, statsPanel);
     }
     
     @Override
@@ -31,18 +31,22 @@ public class bubbleSort extends sortVisualizer {
             changes=0;
             for (int y=0; y<datos.length-1; y++){
         
-                notificarIteracion();
+                SwingUtilities.invokeLater(() -> {
+                        notificarIteracion();
+                });
+                
+                    pausa();
                 if (debeIntercambiar(datos[y],datos[y+1])){
                     swap(datos,y,y+1);
                     changes++;
                     
-                    notificarIntercambio();
                     final int idx1 = y, idx2 = y+1;
                     final int[] snap = datos.clone();
 
                     SwingUtilities.invokeLater(() -> {
                         actualizarDataset(snap, idx1, idx2);
                         lblEstado.setText("Intercambiando: i" + idx1 + " e i" + idx2);
+                        notificarIntercambio();
                     });
                     pausa();
                     
