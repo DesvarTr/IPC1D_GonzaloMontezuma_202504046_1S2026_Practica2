@@ -113,6 +113,15 @@ public abstract class sortVisualizer {
                         + " | Iter: " + movimientos[2] + " | Tiempo: " + tiempoMs + " ms"
                         + " | Velocidad: " + velocidad + " ms");  
                 
+                statsPanel.agregarResumen(getNombre() + " | " + (ascendente ? "ASC" : "DESC")
+                        + " | " + Arrays.toString(arregloOriginal)
+                        + " | " + Arrays.toString(copia)
+                        + " | " + movimientos[0]
+                        + " | " + movimientos[1]
+                        + " | " + movimientos[2]
+                        + " | " + tiempoMs + " ms"
+                        + " | " + velocidad + " ms");
+                
             });
         });
 
