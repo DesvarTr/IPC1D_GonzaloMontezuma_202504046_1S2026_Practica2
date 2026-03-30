@@ -28,6 +28,7 @@ public class shellSort extends sortVisualizer {
         for (int i = arr.length / denominator; i >= 1; i = Math.max(i / denominator, i == 1 ? 0 : 1)) {
 
             for (int j = i; j < arr.length; j++) {
+                notificarIteracion();
                 //Guardar lo que esta originalmente en j
                 int temp = arr[j];
                 int k = j;
@@ -35,6 +36,8 @@ public class shellSort extends sortVisualizer {
                 while (k >= i && (debeIntercambiar(arr[k - i], temp))) {
                     arr[k] = arr[k - i];
                     k -= i;
+                    
+                    notificarIntercambio();
                     final int idx1 = k-i, idx2 = k;
                     final int[] snap = arr.clone();
 

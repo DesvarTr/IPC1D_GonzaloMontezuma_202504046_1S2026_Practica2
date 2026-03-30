@@ -25,6 +25,7 @@ public class quickSort extends sortVisualizer {
     
     private void quickSort_run(int[] arr, int izq, int der){
         
+        notificarIteracion();
         if (izq<=der){
             int pi = partition(arr,izq,der);
             quickSort_run(arr, izq ,pi-1);
@@ -40,10 +41,11 @@ public class quickSort extends sortVisualizer {
         
         for (int j=izq;j<der;j++){
         
-            if(!debeIntercambiar(arr[j],arr[pivot])){
+            if((!debeIntercambiar(arr[j],arr[pivot]))&&(i!=j)){
                 i++;
                 swap(arr,i,j);
                 
+                notificarIntercambio();
                 final int idx1 = i, idx2 = j;
                 final int[] snap = arr.clone();
 

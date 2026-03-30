@@ -31,10 +31,12 @@ public class bubbleSort extends sortVisualizer {
             changes=0;
             for (int y=0; y<datos.length-1; y++){
         
+                notificarIteracion();
                 if (debeIntercambiar(datos[y],datos[y+1])){
                     swap(datos,y,y+1);
                     changes++;
                     
+                    notificarIntercambio();
                     final int idx1 = y, idx2 = y+1;
                     final int[] snap = datos.clone();
 

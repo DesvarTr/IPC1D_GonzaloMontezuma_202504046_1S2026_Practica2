@@ -1,5 +1,6 @@
 package com.mycompany.practica2;
 
+import java.util.Arrays;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -22,17 +23,25 @@ public abstract class sortVisualizer {
     protected int[] arreglo;
     protected int velocidad;
     protected boolean ascendente;
-
+    protected int[] ordenados;
+    protected int[] movimientos;
+    protected estadisticas statsPanel;
 
     public sortVisualizer(JPanel panel, int[] arreglo, boolean ascendente, int velocidad) {
         this.panel      = panel;
         this.arreglo    = arreglo;
         this.ascendente = ascendente;
         this.velocidad  = velocidad;
+        this.ordenados = Arrays.copyOf(arreglo,arreglo.length);
+        Arrays.sort(ordenados);
+        this.movimientos = new int[3];
         inicializarUI();
     }
 
-
+    public void setStatsPanel(estadisticas statsPanel) {
+        this.statsPanel = statsPanel;
+    }
+    
     public sortVisualizer(JPanel panel, int[] arreglo) {
         this(panel, arreglo, true, 300);
     }
@@ -47,8 +56,8 @@ public abstract class sortVisualizer {
         );
         CategoryPlot plot = chart.getCategoryPlot();
         BarRenderer renderer = (BarRenderer) plot.getRenderer();
-        renderer.setSeriesPaint(0, new Color(70, 130, 180));  // normal
-        renderer.setSeriesPaint(1, new Color(220, 50, 50));   // comparando
+        renderer.setSeriesPaint(0, new Color(220, 50, 50));  // normal
+        renderer.setSeriesPaint(1, new Color(70, 130, 180));   // comparando
         renderer.setSeriesPaint(2, new Color(50, 180, 50));   // ordenado
         renderer.setShadowVisible(false);
         renderer.setBarPainter(new StandardBarPainter());
@@ -81,6 +90,12 @@ public abstract class sortVisualizer {
 
 
     private void iniciarOrdenamiento(int[] copia) {
+        
+        movimientos[0] = 0; // reset comparaciones
+        movimientos[1] = 0; // reset intercambios
+        movimientos[2] = 0; // reset iteraciones
+        if (statsPanel != null) statsPanel.reset();
+        
         Thread hilo = new Thread(() -> {
             ordenar(copia);
 
@@ -104,37 +119,41 @@ public abstract class sortVisualizer {
             String etiqueta = "i" + i;
             if (i == idx1 || i == idx2) {
                 dataset.addValue(arr[i], "Comparando", etiqueta);
-                dataset.addValue(null,   "Valores",    etiqueta);
-                dataset.addValue(null,   "Ordenado",   etiqueta);
+                dataset.addValue(null, "Valores", etiqueta);
+                dataset.addValue(null, "Ordenado", etiqueta);
+            } else if (ordenados[i]==arr[i]) {
+                dataset.addValue(null, "Comparando", etiqueta);
+                dataset.addValue(null, "Valores", etiqueta);
+                dataset.addValue(arr[i], "Ordenado", etiqueta);
             } else {
-                dataset.addValue(null,   "Comparando", etiqueta);
-                dataset.addValue(arr[i], "Valores",    etiqueta);
-                dataset.addValue(null,   "Ordenado",   etiqueta);
-            }
-        }
-    }
-
-    protected void marcarOrdenado(int[] arr, int idxOrdenado) {
-        dataset.clear();
-        for (int i = 0; i < arr.length; i++) {
-            String etiqueta = "i" + i;
-            if (i == idxOrdenado) {
-                dataset.addValue(null,   "Comparando", etiqueta);
-                dataset.addValue(null,   "Valores",    etiqueta);
-                dataset.addValue(arr[i], "Ordenado",   etiqueta);
-            } else {
-                dataset.addValue(null,   "Comparando", etiqueta);
-                dataset.addValue(arr[i], "Valores",    etiqueta);
-                dataset.addValue(null,   "Ordenado",   etiqueta);
+                dataset.addValue(null, "Comparando", etiqueta);
+                dataset.addValue(arr[i], "Valores", etiqueta);
+                dataset.addValue(null, "Ordenado", etiqueta);
             }
         }
     }
 
     // Comparacion de intercambio
     protected boolean debeIntercambiar(int a, int b) {
+        notificarComparacion();
         return ascendente ? a > b : a < b;
     }
 
+    protected void notificarComparacion() {
+        movimientos[0]++;
+        if (statsPanel != null) statsPanel.actualizarComparaciones(movimientos[0]);
+    }
+
+    protected void notificarIntercambio() {
+        movimientos[1]++;
+        if (statsPanel != null) statsPanel.actualizarIntercambios(movimientos[1]);
+    }
+
+    protected void notificarIteracion() {
+        movimientos[2]++;
+        if (statsPanel != null) statsPanel.actualizarIteraciones(movimientos[2]);
+    }
+    
     protected void pausa() {
         try {
             Thread.sleep(velocidad);

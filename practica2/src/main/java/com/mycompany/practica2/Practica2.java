@@ -24,6 +24,8 @@ public class Practica2 extends javax.swing.JFrame {
     private static int     VELOCIDAD  = 300;
     private static String  ALGORITMO  = "MERGE";
     private static getData configPanel = new getData();
+    private static estadisticas stats = new estadisticas();
+    sortVisualizer visualizador = null;
     
     public Practica2() {
         initComponents();
@@ -37,17 +39,21 @@ public class Practica2 extends javax.swing.JFrame {
         this.ASCENDENTE = configPanel.getAscendente();
         switch (this.ALGORITMO) {
             case "BUBBLE":
-                new bubbleSort(jPanel1, arreglo, this.ASCENDENTE, this.VELOCIDAD);
+                visualizador = new bubbleSort(jPanel1, arreglo, this.ASCENDENTE, this.VELOCIDAD);
                 break;
             case "QUICK":
-                new quickSort(jPanel1, arreglo, this.ASCENDENTE, this.VELOCIDAD);
+                visualizador = new quickSort(jPanel1, arreglo, this.ASCENDENTE, this.VELOCIDAD);
                 break;
             case "SHELL":
-                new shellSort(jPanel1, arreglo, this.ASCENDENTE, this.VELOCIDAD);
+                visualizador = new shellSort(jPanel1, arreglo, this.ASCENDENTE, this.VELOCIDAD);
                 break;
             case "MERGE":
-                new mergeSort(jPanel1, arreglo, this.ASCENDENTE, this.VELOCIDAD);
+                visualizador = new mergeSort(jPanel1, arreglo, this.ASCENDENTE, this.VELOCIDAD);
                 break;
+        }
+        
+        if (visualizador != null) {
+            visualizador.setStatsPanel(stats);
         }
     }
     
@@ -81,21 +87,24 @@ public class Practica2 extends javax.swing.JFrame {
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(66, 66, 66)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                .addComponent(jComboBoxTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1))
-                .addComponent(configPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createSequentialGroup()
+                                .addComponent(jComboBoxTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton1))
+                        .addComponent(configPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        // Agregamos el panel de estadísticas aquí abajo de la configuración
+                        .addComponent(stats, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 63, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26))
         );
+
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
@@ -107,7 +116,10 @@ public class Practica2 extends javax.swing.JFrame {
                                 .addComponent(jComboBoxTipo)
                                 .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(configPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(configPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        // Añadimos el componente stats en el eje vertical
+                        .addComponent(stats, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(135, Short.MAX_VALUE))
         );
 
